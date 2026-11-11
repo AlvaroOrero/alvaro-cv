@@ -557,33 +557,32 @@ ul, ol { list-style: none; }
 .form__aviso--ok { background: rgba(96, 112, 107, 0.6); }
 .form__aviso--error { background: rgba(210, 48, 16, 0.6); }
 
-/* ---------- Footer ---------- */
+/* ---------- Footer (fiel al Figma: texto grande en mayúsculas junto a "ÁLVARO") ---------- */
 .site-footer {
 	position: relative;
 	overflow: hidden;
 	isolation: isolate;
 	border-top: 1px solid var(--linea);
-	font-size: var(--fs-m);
-	color: var(--blanco-80);
+	color: var(--blanco);
 }
 
 .site-footer .circulos {
-	top: auto;
-	bottom: -55%;
-	left: clamp(-143px, -8vw, 0px);
+	top: clamp(80px, 7.5vw, 130px);
+	left: 0;
+	width: min(950px, 55vw);
 }
 
 .site-footer__principal {
 	position: relative;
 	z-index: 1;
 	display: grid;
-	grid-template-columns: minmax(0, 550px) 1fr;
-	column-gap: clamp(32px, 3.4vw, 58px);
+	grid-template-columns: auto 1fr;
+	column-gap: clamp(40px, 6vw, 108px);
 	align-items: start;
-	padding: clamp(64px, 5.5vw, 95px) var(--gutter) clamp(48px, 4vw, 72px) clamp(16px, 3.94vw, 68px);
+	padding: clamp(64px, 5.5vw, 95px) var(--gutter) clamp(96px, 9vw, 160px) clamp(16px, 3.94vw, 68px);
 }
 
-/* "ÁLVARO" en grande con su reflejo invertido debajo */
+/* "ÁLVARO" en grande con su reflejo invertido debajo, gris #999 como en el Figma */
 .site-footer__marca {
 	position: relative;
 	font-size: var(--fs-xl);
@@ -592,64 +591,51 @@ ul, ol { list-style: none; }
 	letter-spacing: -0.02em;
 	text-transform: uppercase;
 	color: var(--blanco);
-	margin-bottom: 0.9em;
+	margin-bottom: 0.95em;
 }
 .site-footer__marca::after {
 	content: attr(data-texto);
 	position: absolute;
 	left: 0;
-	top: 92%;
+	top: 94%;
 	color: #999;
 	font-weight: 500;
 	transform: scaleY(-1);
-	-webkit-mask-image: linear-gradient(to top, #000 10%, transparent 95%);
-	mask-image: linear-gradient(to top, #000 10%, transparent 95%);
+	-webkit-mask-image: linear-gradient(to top, #000 15%, rgba(0, 0, 0, 0.15) 100%);
+	mask-image: linear-gradient(to top, #000 15%, rgba(0, 0, 0, 0.15) 100%);
+	pointer-events: none;
 }
 
+/* Columnas con el texto grande del Figma: Aspekta 500, 36 px, mayúsculas */
 .site-footer__columnas {
-	display: grid;
-	grid-template-columns: repeat(4, minmax(0, 1fr));
-	gap: 32px;
-	padding-top: 12px;
-}
-
-.site-footer__col .eyebrow { margin-bottom: 18px; color: var(--blanco-60); }
-.site-footer__col li + li { margin-top: 8px; }
-.site-footer__col a { transition: color 0.2s; }
-.site-footer__col a:hover { color: var(--blanco); }
-
-.site-footer__nombre {
-	margin-bottom: 18px;
-	font-size: var(--fs-s);
-	font-weight: 700;
-	line-height: 1;
-	letter-spacing: 0.02em;
-	text-transform: uppercase;
-	color: var(--blanco);
-}
-
-.site-footer__barra {
-	position: relative;
-	z-index: 1;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
-	gap: 12px;
-	padding: 24px var(--gutter);
-	border-top: 1px solid var(--linea);
-	font-size: var(--fs-s);
-	color: var(--blanco-60);
+	gap: 32px clamp(32px, 3.5vw, 64px);
+	padding-top: clamp(4px, 0.8vw, 14px);
+	font-size: clamp(22px, 2.08vw, 36px);
+	font-weight: 500;
+	line-height: 1.1;
+	letter-spacing: -0.02em;
+	text-transform: uppercase;
 }
-.site-footer__barra a:hover { color: var(--blanco); }
+
+.site-footer__titulo { color: #999; margin-bottom: 0.15em; }
+
+.site-footer__col a {
+	display: inline-block;
+	transition: color 0.2s, transform 0.25s ease;
+}
+.site-footer__col a:hover { color: #999; transform: translateX(6px); }
 
 @media (max-width: 1100px) {
-	.site-footer__principal { grid-template-columns: 1fr; row-gap: 24px; }
+	.site-footer__principal { grid-template-columns: 1fr; row-gap: 0; }
 	.contacto-pag__contenido { grid-template-columns: 1fr; row-gap: 48px; }
 }
 
 @media (max-width: 760px) {
-	.site-footer__columnas { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 40px; }
-	.site-footer__barra { flex-direction: column; }
+	.site-footer__columnas { justify-content: flex-start; column-gap: 40px; }
+	.site-footer__marca { margin-bottom: 1.25em; }
 	.boton--sec { flex: 1 1 100%; }
 	.circulos { width: 140vw; }
 }
@@ -725,6 +711,5 @@ body.acv-tema .boton--sec { background: #60706b; }
 body.acv-tema .boton--sec:hover { background: #4f5d59; }
 body.acv-tema .form__fila input,
 body.acv-tema .form__fila textarea { color: var(--blanco); font-family: var(--fuente); }
-body.acv-tema .site-footer__col .eyebrow,
-body.acv-tema .site-footer__barra { color: var(--blanco-60); }
+body.acv-tema .site-footer__titulo { color: #999; }
 body.acv-tema .site-footer__marca { color: var(--blanco); }
