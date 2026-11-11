@@ -640,6 +640,43 @@ ul, ol { list-style: none; }
 	.circulos { width: 140vw; }
 }
 
+/* ---------- Cursor personalizado ---------- */
+.cursor {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 9999;
+	pointer-events: none;
+	mix-blend-mode: difference; /* invierte los colores de lo que hay debajo */
+	opacity: 0;
+	transition: opacity 0.3s;
+	will-change: transform;
+}
+.cursor.is-visible { opacity: 1; }
+.cursor.is-oculto { opacity: 0; }
+
+.cursor__punto {
+	display: block;
+	width: 56px;
+	height: 56px;
+	margin: -28px 0 0 -28px; /* centrado en la punta del ratón */
+	border-radius: 50%;
+	background: var(--blanco);
+	transform: scale(0.25);
+	transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.cursor.is-grande .cursor__punto { transform: scale(1); }
+.cursor.is-pulsado .cursor__punto { transform: scale(0.18); }
+.cursor.is-grande.is-pulsado .cursor__punto { transform: scale(0.8); }
+
+/* Ocultamos la flecha del sistema solo cuando el cursor propio está activo */
+html.cursor-activo,
+html.cursor-activo a,
+html.cursor-activo button,
+html.cursor-activo label { cursor: none; }
+html.cursor-activo input,
+html.cursor-activo textarea { cursor: text; }
+
 /* ---------- Aparición al hacer scroll (solo si hay JS) ---------- */
 .js .reveal {
 	opacity: 0;
