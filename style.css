@@ -1,0 +1,13 @@
+/*
+Theme Name: Álvaro CV
+Theme URI: https://github.com/AlvaroOrero
+Author: Álvaro Orero Gimeno
+Description: Tema propio para el CV interactivo de Álvaro Orero. Hecho a mano, sin constructores.
+Version: 0.3.0
+Requires at least: 6.4
+Requires PHP: 8.0
+Text Domain: alvaro-cv
+*/
+
+/* Los estilos reales viven en assets/css/main.css.
+   Este archivo solo identifica el tema ante WordPress. */

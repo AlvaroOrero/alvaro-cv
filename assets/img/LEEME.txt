@@ -1,0 +1,6 @@
+Exporta desde Figma (hoja HOME) y guarda aquí con estos nombres exactos:
+
+hero-gradiente.webp   -> capa "Shape Blending Gradient V2" (exporta PNG x1 y conviértelo a WebP)
+logo-kenji.svg        -> grupo "Group 5 1"
+logo-kova-builder.svg -> grupo "logo-doble-1-..."
+logo-finergia.svg     -> grupo "finergia 1"
