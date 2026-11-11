@@ -640,6 +640,141 @@ ul, ol { list-style: none; }
 	.circulos { width: 140vw; }
 }
 
+/* ---------- Reseñas (pila de tarjetas junto a "Quién soy") ---------- */
+.quien { align-items: center; }
+.quien__lateral { display: flex; justify-content: center; padding-left: clamp(0px, 5vw, 110px); }
+
+.resenas { width: 100%; max-width: 628px; }
+
+.resenas__pila {
+	position: relative;
+	display: grid;
+	padding: 34px 30px 30px 22px; /* hueco para que asomen las tarjetas de detrás */
+	outline: none;
+	touch-action: pan-y;
+}
+
+.resena {
+	grid-area: 1 / 1;
+	margin: 0;
+	padding: clamp(24px, 2.3vw, 40px);
+	background: var(--blanco);
+	color: #000;
+	box-shadow: 0 4px 2px rgba(0, 0, 0, 0.25), inset 0 4px 4px rgba(0, 0, 0, 0.25);
+	transition: transform 0.7s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.5s ease;
+	will-change: transform;
+}
+
+/* Posiciones de la pila: 0 delante, 1 detrás arriba a la izquierda, 2 detrás abajo a la derecha */
+.resena[data-pos="0"] { z-index: 3; transform: none; }
+.resena[data-pos="1"] { z-index: 2; transform: translate(-22px, -34px); }
+.resena[data-pos="2"] { z-index: 1; transform: translate(28px, 28px); }
+.resena[data-pos="3"] { z-index: 0; transform: translate(28px, 28px); opacity: 0; }
+
+/* La tarjeta que sale se desliza hacia un lado antes de irse al fondo */
+.resena.is-saliendo { z-index: 4; transform: translate(-115%, 0) rotate(-5deg); opacity: 0; }
+.resena.is-saliendo-der { z-index: 4; transform: translate(115%, 0) rotate(5deg); opacity: 0; }
+
+/* Solo se lee el contenido de la tarjeta de delante, como en el Figma */
+.resena__contenido { transition: opacity 0.35s ease; }
+.resena:not([data-pos="0"]) .resena__contenido { opacity: 0; }
+.resena[data-pos="0"] .resena__contenido { transition-delay: 0.25s; }
+
+.resena__estrellas {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	color: rgba(0, 0, 0, 0.6);
+	font-size: var(--fs-s);
+	font-weight: 700;
+}
+.resena__estrellas svg {
+	width: 12px;
+	height: 12px;
+	fill: none;
+	stroke: #f0a020;
+	stroke-width: 1.6;
+}
+
+.resena__texto {
+	margin: 32px 0;
+	font-size: clamp(17px, 1.16vw, 20px);
+	font-weight: 500;
+	line-height: 1.5;
+	letter-spacing: -0.02em;
+	color: rgba(0, 0, 0, 0.8);
+}
+
+.resena__autor {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+	font-size: var(--fs-s);
+	line-height: 1;
+}
+.resena__foto {
+	width: 32px;
+	height: 32px;
+	margin-right: 8px;
+	border-radius: 50%;
+	object-fit: cover;
+	background: #d9d9d9;
+}
+.resena__foto--iniciales {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 12px;
+	font-weight: 700;
+	color: rgba(0, 0, 0, 0.6);
+}
+.resena__nombre { font-weight: 500; color: #000; }
+.resena__meta {
+	font-weight: 700;
+	letter-spacing: 0.02em;
+	text-transform: uppercase;
+	color: rgba(0, 0, 0, 0.6);
+	white-space: nowrap;
+}
+.resena__fuente:hover { color: #000; }
+
+/* Indicador: ← [ 01 / 03 ] → */
+.resenas__nav {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 20px;
+	margin-top: 40px;
+	font-size: var(--fs-s);
+	font-weight: 700;
+	letter-spacing: 0.02em;
+	color: var(--blanco-60);
+}
+.resenas__contador { min-width: 9ch; text-align: center; font-variant-numeric: tabular-nums; }
+.resenas__contador [data-actual] { color: var(--blanco); }
+.resenas__btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	padding: 0;
+	border: 1px solid var(--linea);
+	border-radius: 50%;
+	background: transparent;
+	color: var(--blanco);
+	font: inherit;
+	font-size: 16px;
+	cursor: pointer;
+	transition: border-color 0.2s, background-color 0.2s;
+}
+.resenas__btn:hover { border-color: var(--blanco-60); background: rgba(255, 255, 255, 0.06); }
+
+@media (prefers-reduced-motion: reduce) {
+	.resena, .resena__contenido { transition: none; }
+}
+
 /* ---------- Cursor personalizado ---------- */
 .cursor {
 	position: fixed;
@@ -673,6 +808,7 @@ ul, ol { list-style: none; }
 html.cursor-activo,
 html.cursor-activo a,
 html.cursor-activo button,
+html.cursor-activo .resenas__btn,
 html.cursor-activo label { cursor: none; }
 html.cursor-activo input,
 html.cursor-activo textarea { cursor: text; }
@@ -687,8 +823,8 @@ html.cursor-activo textarea { cursor: text; }
 
 /* ---------- Tablet ---------- */
 @media (max-width: 1100px) {
-	.quien { grid-template-columns: 1fr; }
-	.quien__foto { display: none; }
+	.quien { grid-template-columns: 1fr; row-gap: 72px; }
+	.quien__lateral { order: 2; }
 	.herramientas__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 40px; }
 }
 

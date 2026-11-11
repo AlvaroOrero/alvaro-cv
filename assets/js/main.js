@@ -99,3 +99,58 @@ if (window.matchMedia('(pointer: fine)').matches) {
 		requestAnimationFrame(animar);
 	})();
 }
+
+// Reseñas: pila de tarjetas con botones anterior / siguiente, flechas del teclado y gesto de deslizar
+document.querySelectorAll('[data-resenas]').forEach((carrusel) => {
+	const tarjetas = [...carrusel.querySelectorAll('.resena')];
+	const total = tarjetas.length;
+	const contador = carrusel.querySelector('[data-actual]');
+	const pila = carrusel.querySelector('.resenas__pila');
+	let actual = 0;
+	let ocupado = false;
+
+	function pintar() {
+		tarjetas.forEach((tarjeta, i) => {
+			const pos = (i - actual + total) % total;
+			tarjeta.dataset.pos = Math.min(pos, 3);
+			const delante = pos === 0;
+			tarjeta.setAttribute('aria-hidden', String(!delante));
+			tarjeta.inert = !delante;
+		});
+		if (contador) contador.textContent = String(actual + 1).padStart(2, '0');
+	}
+
+	function mover(dir) {
+		if (total < 2 || ocupado) return;
+		ocupado = true;
+		const saliente = tarjetas[actual];
+		saliente.classList.add(dir > 0 ? 'is-saliendo' : 'is-saliendo-der');
+
+		setTimeout(() => {
+			actual = (actual + dir + total) % total;
+			saliente.classList.remove('is-saliendo', 'is-saliendo-der');
+			pintar();
+			setTimeout(() => { ocupado = false; }, 450);
+		}, 380);
+	}
+
+	carrusel.querySelectorAll('.resenas__btn').forEach((boton) => {
+		boton.addEventListener('click', () => mover(Number(boton.dataset.dir)));
+	});
+
+	pila.addEventListener('keydown', (e) => {
+		if (e.key === 'ArrowRight') mover(1);
+		if (e.key === 'ArrowLeft') mover(-1);
+	});
+
+	let inicioX = null;
+	pila.addEventListener('pointerdown', (e) => { inicioX = e.clientX; });
+	pila.addEventListener('pointerup', (e) => {
+		if (inicioX === null) return;
+		const distancia = e.clientX - inicioX;
+		if (Math.abs(distancia) > 40) mover(distancia < 0 ? 1 : -1);
+		inicioX = null;
+	});
+
+	pintar();
+});

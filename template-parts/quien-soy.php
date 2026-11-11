@@ -4,8 +4,8 @@
  */
 ?>
 <section id="quien-soy" class="quien section" aria-labelledby="quien-titulo">
-	<div class="quien__foto" aria-hidden="true">
-		<?php /* Hueco reservado para la foto. Cuando la tengas: assets/img/alvaro.webp */ ?>
+	<div class="quien__lateral reveal">
+		<?php get_template_part( 'template-parts/resenas' ); ?>
 	</div>
 
 	<div class="quien__texto reveal">
